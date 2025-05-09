@@ -1,0 +1,143 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Country {
+  id: ID!
+  CountryCode: String!
+  CountryName: String!
+  contactInfos: [ContactInfo!]
+}
+
+type ContactInfo {
+  id: ID!
+  UserId: Int!
+  CountryID: Int!
+  City: String!
+  Address: String!
+  Phone: String
+  CellPhone: String!
+  EmergencyName: String!
+  EmergencyPhone: String!
+  user: User!
+  country: Country!
+}
+
+type TypeDocument {
+  id: ID!
+  NameTypeDocument: String!
+  userDocuments: [UserDocument!]
+}
+
+type UserDocument {
+  id: ID!
+  UserId: Int!
+  Document: String!
+  TypeDocumentId: Int!
+  PlaceExpedition: String!
+  DateExpedition: DateTime!
+  user: User!
+  typeDocument: TypeDocument!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type User {
+  id: ID!
+  LastName: String!
+  Name: String!
+  IsMilitar: Boolean!
+  TimeCreate: DateTime!
+  IsTemporal: Boolean!
+  username: String!
+  email: String!
+  emailVerified: Boolean!
+  verificationToken: String
+  documents: [UserDocument!]
+  contactInfo: ContactInfo
+}
+
+type Query {
+  users: [User!]!
+  user(id: Int!): User!
+  typeDocument(id: Int!): TypeDocument!
+  userDocument(id: Int!): UserDocument!
+  country(id: Int!): Country!
+  contactInfo(id: Int!): ContactInfo!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(id: Int!): User!
+  createTypeDocument(createTypeDocumentInput: CreateTypeDocumentInput!): TypeDocument!
+  updateTypeDocument(updateTypeDocumentInput: UpdateTypeDocumentInput!): TypeDocument!
+  removeTypeDocument(id: Int!): TypeDocument!
+  createUserDocument(createUserDocumentInput: CreateUserDocumentInput!): UserDocument!
+  updateUserDocument(updateUserDocumentInput: UpdateUserDocumentInput!): UserDocument!
+  removeUserDocument(id: Int!): UserDocument!
+  createCountry(createCountryInput: CreateCountryInput!): Country!
+  updateCountry(updateCountryInput: UpdateCountryInput!): Country!
+  removeCountry(id: Int!): Country!
+  createContactInfo(createContactInfoInput: CreateContactInfoInput!): ContactInfo!
+  updateContactInfo(updateContactInfoInput: UpdateContactInfoInput!): ContactInfo!
+  removeContactInfo(id: Int!): ContactInfo!
+}
+
+input CreateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateTypeDocumentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateTypeDocumentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateUserDocumentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateUserDocumentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateCountryInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCountryInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateContactInfoInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateContactInfoInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
