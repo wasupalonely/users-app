@@ -5,7 +5,7 @@
 # Dev
 
 1. Clone the project
-2. Copy the ```env.template``` and rename it to ```.env```.
+2. Copy the ```env.example``` and rename it to ```.env```.
 3. Run 
    ```
    yarn install
@@ -16,9 +16,14 @@
    docker-compose up -d
    ```
 
-5. Run the Nest server
+5. Run the seeder command. This command will generate country and document type data
+   ```
+   yarn seed
+   ```
+
+6. Run the Nest server
    ```
     yarn start:dev
    ```
 
-6. Login at [localhost:3000/graphql](localhost:3000/graphql)
+7. Login at [localhost:3000/graphql](localhost:3000/graphql)

@@ -12,24 +12,4 @@ export class UserDocumentResolver {
   createUserDocument(@Args('createUserDocumentInput') createUserDocumentInput: CreateUserDocumentInput) {
     return this.userDocumentService.create(createUserDocumentInput);
   }
-
-  @Query(() => [UserDocument], { name: 'userDocument' })
-  findAll() {
-    return this.userDocumentService.findAll();
-  }
-
-  @Query(() => UserDocument, { name: 'userDocument' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.userDocumentService.findOne(id);
-  }
-
-  @Mutation(() => UserDocument)
-  updateUserDocument(@Args('updateUserDocumentInput') updateUserDocumentInput: UpdateUserDocumentInput) {
-    return this.userDocumentService.update(updateUserDocumentInput.id, updateUserDocumentInput);
-  }
-
-  @Mutation(() => UserDocument)
-  removeUserDocument(@Args('id', { type: () => Int }) id: number) {
-    return this.userDocumentService.remove(id);
-  }
 }

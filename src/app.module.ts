@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
+import { addTransactionalDataSource } from 'typeorm-transactional';
 import * as Joi from 'joi';
 import dbConfig from './config/db.config';
 import { UsersModule } from './users/users.module';
@@ -49,8 +50,9 @@ import { ContactInfoModule } from './contact-info/contact-info.module';
           username: db.username,
           password: db.password,
           database: db.name,
-          synchronize: true,
-          autoLoadEntities: true,
+          migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
+          migrationsRun: true,
+          synchronize: false,
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
         };
       },

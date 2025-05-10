@@ -1,6 +1,6 @@
 import { ObjectType, Field, ID, Int } from '@nestjs/graphql';
-import { Country } from 'src/country/entities/country.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Country } from './../../country/entities/country.entity';
+import { User } from './../../users/entities/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -51,12 +51,12 @@ export class ContactInfo {
 
   // Relaciones
   @Field(() => User)
-  @OneToOne(() => User, (user) => user.contactInfo)
+  @OneToOne(() => User, (user) => user.contactInfo, { eager: true })
   @JoinColumn({ name: 'UserId' })
   user: User;
 
   @Field(() => Country)
-  @ManyToOne(() => Country, (country) => country.contactInfos)
+  @ManyToOne(() => Country, (country) => country.contactInfos, { eager: true })
   @JoinColumn({ name: 'CountryID' })
   country: Country;
 }

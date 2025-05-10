@@ -1,6 +1,6 @@
 // src/users/entities/country.entity.ts
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { ContactInfo } from 'src/contact-info/entities/contact-info.entity';
+import { ContactInfo } from './../../contact-info/entities/contact-info.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @ObjectType()

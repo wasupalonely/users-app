@@ -8,28 +8,8 @@ import { UpdateTypeDocumentInput } from './dto/update-type-document.input';
 export class TypeDocumentResolver {
   constructor(private readonly typeDocumentService: TypeDocumentService) {}
 
-  @Mutation(() => TypeDocument)
-  createTypeDocument(@Args('createTypeDocumentInput') createTypeDocumentInput: CreateTypeDocumentInput) {
-    return this.typeDocumentService.create(createTypeDocumentInput);
-  }
-
-  @Query(() => [TypeDocument], { name: 'typeDocument' })
-  findAll() {
-    return this.typeDocumentService.findAll();
-  }
-
   @Query(() => TypeDocument, { name: 'typeDocument' })
   findOne(@Args('id', { type: () => Int }) id: number) {
     return this.typeDocumentService.findOne(id);
-  }
-
-  @Mutation(() => TypeDocument)
-  updateTypeDocument(@Args('updateTypeDocumentInput') updateTypeDocumentInput: UpdateTypeDocumentInput) {
-    return this.typeDocumentService.update(updateTypeDocumentInput.id, updateTypeDocumentInput);
-  }
-
-  @Mutation(() => TypeDocument)
-  removeTypeDocument(@Args('id', { type: () => Int }) id: number) {
-    return this.typeDocumentService.remove(id);
   }
 }

@@ -1,26 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateTypeDocumentInput } from './dto/create-type-document.input';
 import { UpdateTypeDocumentInput } from './dto/update-type-document.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { TypeDocument } from './entities/type-document.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class TypeDocumentService {
-  create(createTypeDocumentInput: CreateTypeDocumentInput) {
-    return 'This action adds a new typeDocument';
-  }
+  constructor(
+    @InjectRepository(TypeDocument)
+    private readonly typeDocumentRepository: Repository<TypeDocument>,
+  ) {}
 
-  findAll() {
-    return `This action returns all typeDocument`;
-  }
+  async findOne(id: number): Promise<TypeDocument | null> {
+    const typeDocument = await this.typeDocumentRepository.findOneBy({ id });
 
-  findOne(id: number) {
-    return `This action returns a #${id} typeDocument`;
-  }
-
-  update(id: number, updateTypeDocumentInput: UpdateTypeDocumentInput) {
-    return `This action updates a #${id} typeDocument`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} typeDocument`;
+    return typeDocument;
   }
 }

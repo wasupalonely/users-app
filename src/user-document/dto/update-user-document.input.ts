@@ -1,8 +1,10 @@
 import { CreateUserDocumentInput } from './create-user-document.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { InputType, Field, PartialType, ID } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateUserDocumentInput extends PartialType(CreateUserDocumentInput) {
-  @Field(() => Int)
+export class UpdateUserDocumentInput extends PartialType(
+  CreateUserDocumentInput,
+) {
+  @Field(() => ID)
   id: number;
 }

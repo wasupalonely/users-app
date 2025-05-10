@@ -1,6 +1,6 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import { ContactInfo } from 'src/contact-info/entities/contact-info.entity';
-import { UserDocument } from 'src/user-document/entities/user-document.entity';
+import { ContactInfo } from './../../contact-info/entities/contact-info.entity';
+import { UserDocument } from './../../user-document/entities/user-document.entity';
 import {
   Column,
   CreateDateColumn,
@@ -19,11 +19,11 @@ export class User {
 
   @Field(() => String)
   @Column({ length: 20 })
-  LastName: string;
+  Name: string;
 
   @Field(() => String)
   @Column({ length: 20 })
-  Name: string;
+  LastName: string;
 
   @Field(() => Boolean)
   @Column({ default: false })
@@ -35,7 +35,7 @@ export class User {
 
   @Field(() => Boolean)
   @Column({ default: false })
-  IsTemporal: boolean;
+  isTemporal: boolean;
 
   @Field(() => String)
   @Column({ unique: true })

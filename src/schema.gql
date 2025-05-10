@@ -35,23 +35,18 @@ type UserDocument {
   Document: String!
   TypeDocumentId: Int!
   PlaceExpedition: String!
-  DateExpedition: DateTime!
+  DateExpedition: String!
   user: User!
   typeDocument: TypeDocument!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type User {
   id: ID!
-  LastName: String!
   Name: String!
+  LastName: String!
   IsMilitar: Boolean!
   TimeCreate: DateTime!
-  IsTemporal: Boolean!
+  isTemporal: Boolean!
   username: String!
   email: String!
   emailVerified: Boolean!
@@ -60,64 +55,61 @@ type User {
   contactInfo: ContactInfo
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Query {
   users: [User!]!
   user(id: Int!): User!
   typeDocument(id: Int!): TypeDocument!
-  userDocument(id: Int!): UserDocument!
-  country(id: Int!): Country!
   contactInfo(id: Int!): ContactInfo!
+  country(id: Int!): Country!
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
-  createTypeDocument(createTypeDocumentInput: CreateTypeDocumentInput!): TypeDocument!
-  updateTypeDocument(updateTypeDocumentInput: UpdateTypeDocumentInput!): TypeDocument!
-  removeTypeDocument(id: Int!): TypeDocument!
+  registerUser(registerUserInput: RegisterUserInput!): User!
   createUserDocument(createUserDocumentInput: CreateUserDocumentInput!): UserDocument!
-  updateUserDocument(updateUserDocumentInput: UpdateUserDocumentInput!): UserDocument!
-  removeUserDocument(id: Int!): UserDocument!
+  createContactInfo(createContactInfoInput: CreateContactInfoInput!): ContactInfo!
   createCountry(createCountryInput: CreateCountryInput!): Country!
   updateCountry(updateCountryInput: UpdateCountryInput!): Country!
   removeCountry(id: Int!): Country!
-  createContactInfo(createContactInfoInput: CreateContactInfoInput!): ContactInfo!
-  updateContactInfo(updateContactInfoInput: UpdateContactInfoInput!): ContactInfo!
-  removeContactInfo(id: Int!): ContactInfo!
+}
+
+input RegisterUserInput {
+  user: CreateUserInput!
+  document: CreateUserDocumentInput!
+  contactInfo: CreateContactInfoInput!
 }
 
 input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateTypeDocumentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateTypeDocumentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  Name: String!
+  LastName: String!
+  email: String!
+  username: String!
+  password: String!
+  IsMilitar: Boolean = false
+  isTemporal: Boolean = false
 }
 
 input CreateUserDocumentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  Document: String!
+  TypeDocumentId: Int!
+  UserId: Int
+  PlaceExpedition: String!
+  DateExpedition: String!
 }
 
-input UpdateUserDocumentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input CreateContactInfoInput {
+  CountryID: Int!
+  UserId: Int
+  City: String!
+  Address: String!
+  Phone: String
+  CellPhone: String!
+  EmergencyName: String!
+  EmergencyPhone: String!
 }
 
 input CreateCountryInput {
@@ -126,17 +118,6 @@ input CreateCountryInput {
 }
 
 input UpdateCountryInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
-}
-
-input CreateContactInfoInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateContactInfoInput {
   """Example field (placeholder)"""
   exampleField: Int
   id: Int!

@@ -7,5 +7,6 @@ import { TypeDocument } from './entities/type-document.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([TypeDocument])],
   providers: [TypeDocumentResolver, TypeDocumentService],
+  exports: [TypeDocumentService],
 })
 export class TypeDocumentModule {}

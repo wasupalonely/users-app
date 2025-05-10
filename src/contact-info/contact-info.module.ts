@@ -7,5 +7,6 @@ import { ContactInfo } from './entities/contact-info.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([ContactInfo])],
   providers: [ContactInfoResolver, ContactInfoService],
+  exports: [ContactInfoService],
 })
 export class ContactInfoModule {}
