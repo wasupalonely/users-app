@@ -1,26 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCountryInput } from './dto/create-country.input';
 import { UpdateCountryInput } from './dto/update-country.input';
+import { Country } from './entities/country.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class CountryService {
-  create(createCountryInput: CreateCountryInput) {
-    return 'This action adds a new country';
+  constructor(
+    @InjectRepository(Country)
+    private readonly countryRepository: Repository<Country>,
+  ) {}
+  async findAll(): Promise<Country[]> {
+    return await this.countryRepository.find();
   }
 
-  findAll() {
-    return `This action returns all country`;
-  }
+  async findOne(id: number): Promise<Country> {
+    const country = await this.countryRepository.findOneBy({ id });
 
-  findOne(id: number) {
-    return `This action returns a #${id} country`;
-  }
+    if (!country) {
+      throw new Error('El pais no existe');
+    }
 
-  update(id: number, updateCountryInput: UpdateCountryInput) {
-    return `This action updates a #${id} country`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} country`;
+    return country;
   }
 }

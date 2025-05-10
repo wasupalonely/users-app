@@ -11,9 +11,4 @@ export class ContactInfoResolver {
   createContactInfo(@Args('createContactInfoInput') createContactInfoInput: CreateContactInfoInput) {
     return this.contactInfoService.create(createContactInfoInput);
   }
-
-  @Query(() => ContactInfo, { name: 'contactInfo' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.contactInfoService.findOne(id);
-  }
 }

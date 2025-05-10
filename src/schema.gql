@@ -60,21 +60,27 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type VerifyEmailResponse {
+  success: Boolean!
+  message: String!
+}
+
 type Query {
   users: [User!]!
   user(id: Int!): User!
+  checkUsernameExists(username: String!): Boolean!
+  checkEmailExists(email: String!): Boolean!
+  typeDocuments: [TypeDocument!]!
   typeDocument(id: Int!): TypeDocument!
-  contactInfo(id: Int!): ContactInfo!
+  countries: [Country!]!
   country(id: Int!): Country!
 }
 
 type Mutation {
   registerUser(registerUserInput: RegisterUserInput!): User!
+  verifyEmail(token: String!, userId: Float!): VerifyEmailResponse!
   createUserDocument(createUserDocumentInput: CreateUserDocumentInput!): UserDocument!
   createContactInfo(createContactInfoInput: CreateContactInfoInput!): ContactInfo!
-  createCountry(createCountryInput: CreateCountryInput!): Country!
-  updateCountry(updateCountryInput: UpdateCountryInput!): Country!
-  removeCountry(id: Int!): Country!
 }
 
 input RegisterUserInput {
@@ -110,15 +116,4 @@ input CreateContactInfoInput {
   CellPhone: String!
   EmergencyName: String!
   EmergencyPhone: String!
-}
-
-input CreateCountryInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateCountryInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }

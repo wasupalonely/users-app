@@ -12,6 +12,12 @@ export class TypeDocumentService {
     private readonly typeDocumentRepository: Repository<TypeDocument>,
   ) {}
 
+  async findAll(): Promise<TypeDocument[]> {
+    const typeDocuments = await this.typeDocumentRepository.find();
+
+    return typeDocuments;
+  }
+
   async findOne(id: number): Promise<TypeDocument | null> {
     const typeDocument = await this.typeDocumentRepository.findOneBy({ id });
 

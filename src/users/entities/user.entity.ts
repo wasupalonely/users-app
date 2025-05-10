@@ -53,8 +53,8 @@ export class User {
   emailVerified: boolean;
 
   @Field(() => String, { nullable: true })
-  @Column({ nullable: true })
-  verificationToken: string;
+  @Column('varchar', { length: 64, nullable: true })
+  verificationToken?: string | null;
 
   @Field(() => [UserDocument], { nullable: true })
   @OneToMany(() => UserDocument, (userDocument) => userDocument.user)

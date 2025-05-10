@@ -12,6 +12,7 @@ import { UserDocumentService } from 'src/user-document/user-document.service';
 import { TypeDocumentService } from 'src/type-document/type-document.service';
 import { CreateUserInput } from './dto/create-user.input';
 import { ContactInfoService } from 'src/contact-info/contact-info.service';
+import generateVerificationToken from 'src/utils/verification-token';
 
 @Injectable()
 export class UsersService {
@@ -89,19 +90,48 @@ export class UsersService {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(user.password, salt);
 
+    const verificationToken = generateVerificationToken();
+
     const userEntity = this.userRepository.create({
       ...user,
       password: hashedPassword,
+      verificationToken,
     });
 
     return this.userRepository.save(userEntity);
+  }
+
+  async checkUserExists(username: string): Promise<boolean> {
+    return await this.userRepository.exists({ where: { username } });
+  }
+
+  async checkEmailExists(email: string): Promise<boolean> {
+    return await this.userRepository.exists({ where: { email } });
+  }
+
+  async verifyEmail(
+    token: string,
+    userId: number,
+  ): Promise<{ success: boolean; message: string }> {
+    const user = await this.findOne(userId);
+
+    if (user.verificationToken !== token) {
+      return { success: false, message: 'Token inválido' };
+    }
+
+    await this.userRepository.update(userId, {
+      emailVerified: true,
+      verificationToken: null,
+    });
+
+    return { success: true, message: 'Correo verificado' };
   }
 
   private async findUserByCredentials(
     username: string,
     email: string,
   ): Promise<User | null> {
-    return this.userRepository.findOne({
+    return await this.userRepository.findOne({
       where: [{ username }, { email }],
     });
   }
