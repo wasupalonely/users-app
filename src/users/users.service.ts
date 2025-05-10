@@ -56,7 +56,10 @@ export class UsersService {
     }
 
     const documentFound =
-      await this.userDocumentService.findOneByDocumentNumber(document.Document);
+      await this.userDocumentService.findOneByDocumentNumberAndTypeDocument(
+        document.Document,
+        document.TypeDocumentId,
+      );
 
     if (documentFound) {
       throw new ConflictException('El documento ya existe');

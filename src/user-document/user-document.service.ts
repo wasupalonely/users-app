@@ -1,11 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDocumentInput } from './dto/create-user-document.input';
-import { UpdateUserDocumentInput } from './dto/update-user-document.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserDocument } from './entities/user-document.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { TypeDocumentService } from 'src/type-document/type-document.service';
+import * as moment from 'moment';
 
 @Injectable()
 export class UserDocumentService {
@@ -29,8 +33,9 @@ export class UserDocumentService {
   async create(
     createUserDocumentInput: CreateUserDocumentInput,
   ): Promise<UserDocument> {
-    const user = await this.userRepository.findOneBy({
-      id: createUserDocumentInput.UserId,
+    const user = await this.userRepository.findOne({
+      where: { id: createUserDocumentInput.UserId },
+      relations: ['documents'],
     });
 
     if (!user) {
@@ -45,6 +50,23 @@ export class UserDocumentService {
       throw new NotFoundException('El tipo de documento no existe');
     }
 
+    if (
+      user.documents.some(
+        (doc) =>
+          doc.typeDocument.NameTypeDocument === typeDocument.NameTypeDocument,
+      )
+    ) {
+      throw new BadRequestException(
+        'El usuario ya tiene este tipo de documento',
+      );
+    }
+
+    if (moment(createUserDocumentInput.DateExpedition).isAfter(moment())) {
+      throw new BadRequestException(
+        'La fecha de expedición no puede ser posterior a la actual',
+      );
+    }
+
     const userDocument = await this.userDocumentRepository.save({
       ...createUserDocumentInput,
       DateExpedition: new Date(createUserDocumentInput.DateExpedition),
@@ -52,11 +74,12 @@ export class UserDocumentService {
 
     return await this.findById(userDocument.id);
   }
-  async findOneByDocumentNumber(
+  async findOneByDocumentNumberAndTypeDocument(
     documentNumber: string,
+    typeDocumentId: number,
   ): Promise<UserDocument | null> {
     const userDocument = await this.userDocumentRepository.findOne({
-      where: { Document: documentNumber },
+      where: { Document: documentNumber, typeDocument: { id: typeDocumentId } },
     });
 
     return userDocument;
