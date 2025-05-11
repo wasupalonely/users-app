@@ -52,7 +52,7 @@ import { ContactInfoModule } from './contact-info/contact-info.module';
           database: db.name,
           migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
           migrationsRun: true,
-          synchronize: false,
+          synchronize: true,
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
         };
       },
